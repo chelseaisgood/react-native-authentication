@@ -4,7 +4,9 @@ import {
     LOGIN_USER,
     SIGNUP_USER,
     CHANGE_IF_LOGGING_IN_USER,
-    CHANGE_IF_SIGNIN_GUP_USER
+    CHANGE_IF_SIGNIN_GUP_USER,
+    CLEAN_UP_LOGIN_ERROR_MESSAGE,
+    CLEAN_UP_SIGNUP_ERROR_MESSAGE
 } from './types';
 
 export const emailChange = (text) => ({
@@ -37,4 +39,12 @@ export const changeIfLoggingInUser = boolState => ({
 export const changeIfSigningUpUser = boolState => ({
     type: CHANGE_IF_SIGNIN_GUP_USER,
     boolState
+});
+
+export const cleanUpLoginErrorMessage = () => ({
+    type: CLEAN_UP_LOGIN_ERROR_MESSAGE
+});
+
+export const cleanUpSignupErrorMessage = () => ({
+    type: CLEAN_UP_SIGNUP_ERROR_MESSAGE
 });

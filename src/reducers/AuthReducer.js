@@ -7,6 +7,8 @@ import {
     CHANGE_IF_SIGNING_UP_USER,
     SIGNUP_USER_SUCCESS,
     SIGNUP_USER_FAILURE,
+    CLEAN_UP_LOGIN_ERROR_MESSAGE,
+    CLEAN_UP_SIGNUP_ERROR_MESSAGE
 } from '../actions/types';
 
 const INITIAL_STATE = {
@@ -30,16 +32,20 @@ export default (state = INITIAL_STATE, action) => {
         case CHANGE_IF_LOGGING_IN_USER:
             return { ...state, loginProcessing: action.boolState };
         case LOGIN_USER_SUCCESS:
-            return { ...state, user: action.payload };
+            return { ...state, user: action.payload, password: '' };
         case LOGIN_USER_FAILURE:
             return { ...state, loginError: action.loginError };
+        case CLEAN_UP_LOGIN_ERROR_MESSAGE:
+            return { ...state, loginError: '' };
 
         case CHANGE_IF_SIGNING_UP_USER:
             return { ...state, signupProcessing: action.boolState };
         case SIGNUP_USER_SUCCESS:
-            return { ...state, user: action.payload };
+            return { ...state, user: action.payload, password: '' };
         case SIGNUP_USER_FAILURE:
             return { ...state, signupError: action.signupError };
+        case CLEAN_UP_SIGNUP_ERROR_MESSAGE:
+            return { ...state, signupError: '' };
 
         default:
             return state;

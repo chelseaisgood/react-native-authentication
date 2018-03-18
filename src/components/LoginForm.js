@@ -11,8 +11,13 @@ class LoginForm extends Component {
         error: '',
     };
 
+    componentWillMount() {
+        this.props.cleanUpLoginErrorMessage();
+    }
+
     onLogin = () => {
         const { email, password } = this.props;
+        this.props.cleanUpLoginErrorMessage();
         this.setState({ error: '' });
         if (!email && email.length === 0) {
             this.setState({ error: 'Email cannot be none!' });

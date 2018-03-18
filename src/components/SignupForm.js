@@ -12,8 +12,13 @@ class SignupForm extends Component {
         error: ''
     };
 
+    componentWillMount() {
+        this.props.cleanUpSignupErrorMessage();
+    }
+
     onSignUp = () => {
         const { email, password, confirmPassword } = this.state;
+        this.props.cleanUpSignupErrorMessage();
         this.setState({ error: '' });
         if (!email && email.length === 0) {
             this.setState({ error: 'Email cannot be none!' });
