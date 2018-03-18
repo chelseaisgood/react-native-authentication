@@ -7,7 +7,7 @@ const Input = (
     const { labelStyle, containerStyle, inputStyle } = styles;
     return (
         <View style={containerStyle}>
-            <Text style={labelStyle}>{label}</Text>
+            {label && <Text style={labelStyle}>{label}</Text>}
             <TextInput
                 autoCapitalize={autoCapitalize || 'none'}
                 secureTextEntry={secureTextEntry || false}

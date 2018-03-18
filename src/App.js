@@ -7,6 +7,7 @@ import {
 import { Provider } from 'react-redux';
 import firebase from 'firebase';
 import LoginForm from './components/LoginForm';
+import SignupForm from './components/SignupForm';
 import { Card, CardSection, Header, Button, Spinner } from './components/common'; 
 import configureStore from './store';
 import * as firebaseconfig from './firebaseconfig';
@@ -17,7 +18,8 @@ type Props = {};
 export default class App extends Component<Props> {
   
   state = {
-    loggedIn: false
+    loggedIn: false,
+    showSignUpPage: false,
   }
   componentWillMount() {
     const config = {
@@ -42,6 +44,14 @@ export default class App extends Component<Props> {
     firebase.auth().signOut();
   }
 
+  goToSignUpPage = () => {
+    this.setState({ showSignUpPage: true });
+  }
+
+  goToLogInPage = () => {
+    this.setState({ showSignUpPage: false });
+  }
+
   renderContent() {
     switch (this.state.loggedIn) {
       case true:
@@ -55,7 +65,10 @@ export default class App extends Component<Props> {
           </Card>
         );
       case false:
-        return <LoginForm />;
+        if (this.state.showSignUpPage) {
+          return <SignupForm goToLogInPage={this.goToLogInPage} />;
+        }
+        return <LoginForm goToSignUpPage={this.goToSignUpPage} />;
       default:
         return <Spinner />;
       }

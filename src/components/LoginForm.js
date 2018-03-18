@@ -8,64 +8,19 @@ import * as actions from '../actions';
 class LoginForm extends Component {
 
     state = {
-        email: '',
-        password: '',
         error: '',
-        loading: false,
     };
 
-    // onLogin() {
-    //     const { email, password } = this.props;
-    //     // console.log('email');
-    //     // this.props.loginUser({ email, password });
-    //     this.setState({ error: '', loading: true });
-    //     firebase.auth().signInWithEmailAndPassword(email, password)
-    //     .then(
-    //         () => {
-    //             console.log('success!!!!!');
-    //             this.onLoginSuccess();
-    //         }
-    //     )
-    //     .catch(
-    //         (err) => {
-    //             console.log(err);
-    //             this.onLoginFail();
-    //         }
-    //     );
-    // }
-
-    onLogin() {
+    onLogin = () => {
         const { email, password } = this.props;
-        this.props.loginUser({ email, password });
-        // this.setState({ error: '', loading: true });
-        // firebase.auth().signInWithEmailAndPassword(email, password)
-        // .then(
-        //     () => {
-        //         console.log('success!!!!!');
-        //         this.onLoginSuccess();
-        //     }
-        // )
-        // .catch(
-        //     () => {
-        //         this.onLoginFail();
-        //     }
-        // );
-    }
-
-    onLoginFail = () => {
-        this.setState({
-            error: 'Login failed.',
-            loading: false,
-        });
-    }
-
-    onLoginSuccess = () => {
-        this.setState({
-            email: '',
-            password: '',
-            error: '',
-            loading: false,
-        });
+        this.setState({ error: '' });
+        if (!email && email.length === 0) {
+            this.setState({ error: 'Email cannot be none!' });
+        } else if (!password && password.length === 0) {
+            this.setState({ error: 'Password cannot be none!' });
+        } else {
+            this.props.loginUser({ email, password });
+        }
     }
 
     onEmailChange = text => {
@@ -99,13 +54,23 @@ class LoginForm extends Component {
                 <Text style={styles.errorTextStyle}>
                     {this.state.error}
                 </Text>
+                <Text style={styles.errorTextStyle}>
+                    {this.props.loginError}
+                </Text>
                 <CardSection>
-                    {this.state.loading
+                    {this.props.loginProcessing
                         ?
                         <Spinner />
                         :
-                        <Button onPress={this.onLogin.bind(this)}>
+                        <Button onPress={this.onLogin}>
                             Log in
+                        </Button>
+                    }
+                </CardSection>
+                <CardSection>
+                    {!this.props.loginProcessing &&
+                        <Button onPress={this.props.goToSignUpPage}>
+                            Sign up
                         </Button>
                     }
                 </CardSection>
@@ -117,7 +82,9 @@ class LoginForm extends Component {
 const mapStateToProps = state => {
     return ({
         email: state.auth.email,
-        password: state.auth.password
+        password: state.auth.password,
+        loginError: state.auth.loginError,
+        loginProcessing: state.auth.loginProcessing
     });
 };
 
@@ -128,6 +95,5 @@ const styles = {
         color: 'red',
     }
 };
-
 
 export default connect(mapStateToProps, actions)(LoginForm);
