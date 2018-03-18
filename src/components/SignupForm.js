@@ -37,6 +37,25 @@ class SignupForm extends Component {
 
     onConfirmPasswordChange = confirmPassword => this.setState({ confirmPassword });
 
+    renderSignupErrorMessage = () => {
+        if (this.state.error) {
+            return (
+                <View>
+                    <Text style={styles.errorTextStyle}>
+                        {this.state.error}
+                    </Text>
+                </View>
+            );
+        }
+        return (
+            <View>
+                <Text style={styles.errorTextStyle}>
+                    {this.props.signupError}
+                </Text>
+            </View>
+        );
+    }
+
     render() {
         return (
             <Card>
@@ -63,12 +82,7 @@ class SignupForm extends Component {
                         onChangeText={this.onConfirmPasswordChange}
                     />
                 </CardSection>
-                <Text style={styles.errorTextStyle}>
-                    {this.state.error}
-                </Text>
-                <Text style={styles.errorTextStyle}>
-                    {this.props.signupError}
-                </Text>
+                {this.renderSignupErrorMessage()}
                 <CardSection>
                     {!this.state.loading &&
                         <Button onPress={this.onSignUp}>

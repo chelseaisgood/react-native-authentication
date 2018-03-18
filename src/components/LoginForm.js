@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Text } from 'react-native';
+import { Text, View } from 'react-native';
 // import firebase from 'firebase';
 import { connect } from 'react-redux';
 import { Button, Card, CardSection, Input, Spinner } from './common';
@@ -36,6 +36,25 @@ class LoginForm extends Component {
         this.props.passwordChange(password);
     }
 
+    renderLoginErrorMessage = () => {
+        if (this.state.error) {
+            return (
+                <View>
+                    <Text style={styles.errorTextStyle}>
+                        {this.state.error}
+                    </Text>
+                </View>
+            );
+        }
+        return (
+            <View>
+                <Text style={styles.errorTextStyle}>
+                    {this.props.loginError}
+                </Text>
+            </View>
+        );
+    }
+
     render() {
         return (
             <Card>
@@ -56,12 +75,7 @@ class LoginForm extends Component {
                         onChangeText={this.onPasswordChange}
                     />
                 </CardSection>
-                <Text style={styles.errorTextStyle}>
-                    {this.state.error}
-                </Text>
-                <Text style={styles.errorTextStyle}>
-                    {this.props.loginError}
-                </Text>
+                {this.renderLoginErrorMessage()}
                 <CardSection>
                     {this.props.loginProcessing
                         ?
