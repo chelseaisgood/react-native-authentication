@@ -39,7 +39,7 @@ class LoginForm extends Component {
     renderLoginErrorMessage = () => {
         if (this.state.error) {
             return (
-                <View>
+                <View style={{ backgroundColor: 'white' }}>
                     <Text style={styles.errorTextStyle}>
                         {this.state.error}
                     </Text>
@@ -47,7 +47,7 @@ class LoginForm extends Component {
             );
         }
         return (
-            <View>
+            <View style={{ backgroundColor: 'white' }}>
                 <Text style={styles.errorTextStyle}>
                     {this.props.loginError}
                 </Text>

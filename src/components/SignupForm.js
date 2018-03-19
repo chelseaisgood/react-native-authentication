@@ -40,7 +40,7 @@ class SignupForm extends Component {
     renderSignupErrorMessage = () => {
         if (this.state.error) {
             return (
-                <View>
+                <View style={{ backgroundColor: 'white' }}>
                     <Text style={styles.errorTextStyle}>
                         {this.state.error}
                     </Text>
@@ -48,7 +48,7 @@ class SignupForm extends Component {
             );
         }
         return (
-            <View>
+            <View style={{ backgroundColor: 'white' }}>
                 <Text style={styles.errorTextStyle}>
                     {this.props.signupError}
                 </Text>
