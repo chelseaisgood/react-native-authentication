@@ -1,5 +1,6 @@
 import { call, put, takeEvery } from 'redux-saga/effects';
 import firebase from 'firebase';
+import { Actions } from 'react-native-router-flux';
 import {
     LOGIN_USER,
     LOGIN_USER_SUCCESS,
@@ -10,6 +11,7 @@ import {
     CHANGE_IF_LOGGING_IN_USER,
     CHANGE_IF_SIGNING_UP_USER
 } from '../actions/types';
+
 
 function* loginUser({ email, password }) {
     yield put({ type: CHANGE_IF_LOGGING_IN_USER, boolState: true });
@@ -27,6 +29,7 @@ function* loginUser({ email, password }) {
         );
         yield call(console.log, result);
         yield put({ type: LOGIN_USER_SUCCESS, payload: result });
+        yield call(Actions.main);
     } catch (e) {
         let errorMessage = 'Server Error. Please try again later!';
         if (e.message) {

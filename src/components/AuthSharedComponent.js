@@ -6,7 +6,7 @@ import {
 import firebase from 'firebase';
 import LoginForm from './LoginForm';
 import SignupForm from './SignupForm';
-import { Card, CardSection, Header, Button, Spinner } from './common'; 
+import { Card, CardSection, Button, Spinner } from './common'; 
 
 export default class AuthSharedComponent extends Component {
   
@@ -62,7 +62,7 @@ export default class AuthSharedComponent extends Component {
   render() {
     return (
         <View style={styles.container}>
-          <Header headerText="authentication" />
+          {/* <Header headerText="authentication" /> */}
           {this.renderContent()}
         </View>
     );

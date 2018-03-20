@@ -3,7 +3,7 @@ import { Provider } from 'react-redux';
 import firebase from 'firebase'; 
 import configureStore from './store';
 import * as firebaseconfig from './firebaseconfig';
-import AuthSharedComponent from './components/AuthSharedComponent';
+import Router from './Router';
 
 const store = configureStore();
 
@@ -25,7 +25,7 @@ export default class App extends Component<Props> {
   render() {
     return (
       <Provider store={store}>
-        <AuthSharedComponent />
+        <Router />
       </Provider>
     );
   }

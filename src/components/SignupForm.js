@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { Text, View } from 'react-native';
 import { connect } from 'react-redux';
 import { Button, Card, CardSection, Input, Spinner } from './common';
-import * as actions from '../actions';
+import * as actions from '../actions/AuthActions';
 
 class SignupForm extends Component {
     state = {

@@ -3,7 +3,7 @@ import { Text, View } from 'react-native';
 // import firebase from 'firebase';
 import { connect } from 'react-redux';
 import { Button, Card, CardSection, Input, Spinner } from './common';
-import * as actions from '../actions';
+import * as actions from '../actions/AuthActions';
 
 class LoginForm extends Component {
 
