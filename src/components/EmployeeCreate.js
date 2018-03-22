@@ -1,61 +1,61 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
 import { Picker, Text } from 'react-native';
-import { Button, Card, CardSection, Input, Spinner } from './common'; 
+import { Button, Card, CardSection, Input } from './common'; 
+import EmployeeForm from './EmployeeForm';
+import { employeeCreate } from '../actions/EmployeeActions';
 
 class EmployeeCreate extends Component {
 
     state= {
         name: '',
         phone: '',
-        pick: null
+        shift: null
+    }
+
+    componentWillMount() {
+        if (this.props.employee) {
+            const { name, phone, shift } = this.props.employee;
+            console.log('nextProps');
+            console.log(this.props);
+            this.setState({ name, phone, shift });
+            console.log(this.state);
+        }
     }
 
     onNameChange = name => {
         this.setState({ name });
     }
+    onPhoneChange = phone => {
+        this.setState({ phone });
+    }
 
     onShiftChange = value => {
-        console.log(value);
-        this.setState({ pick: value });
+        this.setState({ shift: value });
+    }
+
+    onButtonPress = () => {
+        const { name, phone, shift } = this.state;
+        this.props.employeeCreate(name, phone, shift || 'Monday');
     }
 
 
     render() {
+        const { name, phone, shift } = this.state;
+        console.log(this.props.employee);
         return (
             <Card>
+                <EmployeeForm
+                    employeeUpdate={this.props.employeeCreate}
+                    name={name}
+                    phone={phone}
+                    shift={shift}
+                    onNameChange={this.onNameChange}
+                    onPhoneChange={this.onPhoneChange}
+                    onShiftChange={this.onShiftChange}
+                />
                 <CardSection>
-                    <Input
-                        label="Name"
-                        placeholder="Employee's name"
-                        value={this.state.email}
-                        onChangeText={this.onNameChange}
-                    />
-                </CardSection>
-                <CardSection>
-                    <Input
-                        label="Phone"
-                        placeholder="555-555-5555"
-                        value={this.state.phone}
-                        onChangeText={this.onPhoneChange}
-                    />
-                </CardSection>
-                <CardSection>
-                    <Picker
-                        style={{ flex: 1 }}
-                        selectedValue={this.state.pick}
-                        onValueChange={this.onShiftChange}
-                    >
-                        <Picker.Item label="Monday" value="Monday" />
-                        <Picker.Item label="Tuesday" value="Tuesday" />
-                        <Picker.Item label="Wednesday" value="Wednesday" />
-                        <Picker.Item label="Thursday" value="Thursday" />
-                        <Picker.Item label="Friday" value="Friday" />
-                        <Picker.Item label="Saturday" value="Saturday" />
-                        <Picker.Item label="Sunday" value="Sunday" />
-                    </Picker>
-                    </CardSection>
-                <CardSection>
-                    <Button>
+                    <Button onPress={this.onButtonPress}>
                         Create
                     </Button>
                 </CardSection>
@@ -64,4 +64,5 @@ class EmployeeCreate extends Component {
     }
 }
 
-export default EmployeeCreate;
+
+export default connect(null, { employeeCreate })(EmployeeCreate);

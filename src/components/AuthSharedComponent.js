@@ -4,11 +4,14 @@ import {
   View
 } from 'react-native';
 import firebase from 'firebase';
+import { connect } from 'react-redux';
+import { Actions } from 'react-native-router-flux';
 import LoginForm from './LoginForm';
 import SignupForm from './SignupForm';
 import { Card, CardSection, Button, Spinner } from './common'; 
+import { startFirebaseEmployeeUpdateListener } from '../actions/EmployeeActions'; 
 
-export default class AuthSharedComponent extends Component {
+class AuthSharedComponent extends Component {
   
   state = {
     loggedIn: false,
@@ -18,6 +21,8 @@ export default class AuthSharedComponent extends Component {
   componentWillMount() {
     firebase.auth().onAuthStateChanged((user) => {
       if (user) {
+        this.props.startFirebaseEmployeeUpdateListener();
+        Actions.main();
         this.setState({ loggedIn: true });
       } else {
         this.setState({ loggedIn: false });
@@ -79,3 +84,5 @@ const styles = StyleSheet.create({
     width: null,
   }
 });
+
+export default connect(null, { startFirebaseEmployeeUpdateListener })(AuthSharedComponent);

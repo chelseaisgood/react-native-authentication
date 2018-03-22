@@ -5,8 +5,8 @@ import EmployeeList from './components/EmployeeList';
 import EmployeeCreate from './components/EmployeeCreate';
 
 const RouterComponent = () => {
-    const navigateToEmployeeCreateComponent = () => Actions.employeeCreate();
-    // const navigateToEmployeeListComponent = () => Actions.employeeList();
+    const navigateToEmployeeCreateComponent = () =>
+        Actions.employeeCreate({ isEditingMode: false });
 
     return (
         <Router>

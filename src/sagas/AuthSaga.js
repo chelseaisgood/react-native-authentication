@@ -16,7 +16,6 @@ import {
 function* loginUser({ email, password }) {
     yield put({ type: CHANGE_IF_LOGGING_IN_USER, boolState: true });
     try {
-        // const result = yield call(firebaseLogin, email, password);
         console.log(email);
         console.log(password);
         const auth = firebase.auth();
