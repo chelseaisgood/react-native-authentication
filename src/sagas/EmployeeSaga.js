@@ -4,9 +4,9 @@ import firebase from 'firebase';
 import { Actions } from 'react-native-router-flux';
 import {
     EMPLOYEE_CREATE,
-    EMPLOYEE_LIST_FETCH,
     EMPLOYEE_LIST_FETCH_SUCCESS,
-    START_FIREBASE_EMPLOYEE_UPDATE_LISTENER
+    START_FIREBASE_EMPLOYEE_UPDATE_LISTENER,
+    EMPLOYEE_UPDATE
 } from '../actions/types';
 
 
@@ -32,6 +32,31 @@ function* createEmployee({ name, phone, shift }) {
     } catch (e) {
         console.log(e);
         console.log('fail to create employee');
+    }
+}
+
+function* updateEmployee({ name, phone, shift, uid }) {
+    yield call(console.log, name, phone, shift, uid);
+    const { currentUser } = firebase.auth();
+
+    // /users/userId/employees path to json data store
+    // firebase.database().ref(`/users/${currentUser.uid}/employees`)
+    // .push({ name, phone, shift });
+    const path = `/users/${currentUser.uid}/employees/${uid}`;
+    const func = firebase.database().ref(path);
+    const data = { name, phone, shift, uid };
+    console.log(path);
+    console.log(func);
+    console.log(data);
+    try {
+        yield call(
+            [func, func.set],
+            data
+        );
+        yield call(Actions.pop, { type: 'reset' });
+    } catch (e) {
+        console.log(e);
+        console.log('fail to update employee');
     }
 }
 
@@ -93,6 +118,7 @@ function* fetchEmployeeList() {
 function* employeeSaga() {
   yield takeEvery(EMPLOYEE_CREATE, createEmployee);
   yield takeEvery(START_FIREBASE_EMPLOYEE_UPDATE_LISTENER, fetchEmployeeList);
+  yield takeEvery(EMPLOYEE_UPDATE, updateEmployee);
 }
 
 export default employeeSaga;

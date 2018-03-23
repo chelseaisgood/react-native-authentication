@@ -20,7 +20,7 @@ class EmployeeForm extends Component {
                         label="Phone"
                         placeholder="555-555-5555"
                         value={this.props.phone}
-                        onChangeText={this.props.nPhoneChange}
+                        onChangeText={this.props.onPhoneChange}
                     />
                 </CardSection>
                 <CardSection style={{ flexDirection: 'column' }}>

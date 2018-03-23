@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import { Picker, Text } from 'react-native';
 import { Button, Card, CardSection, Input } from './common'; 
 import EmployeeForm from './EmployeeForm';
-import { employeeCreate } from '../actions/EmployeeActions';
+import { employeeCreate, employeeUpdate } from '../actions/EmployeeActions';
 
 class EmployeeCreate extends Component {
 
@@ -39,6 +39,12 @@ class EmployeeCreate extends Component {
         this.props.employeeCreate(name, phone, shift || 'Monday');
     }
 
+    onEmployeeUpdate = () => {
+        const { name, phone, shift } = this.state;
+        console.log(name, phone, shift);
+        this.props.employeeUpdate(name, phone, shift, this.props.employee.uid);
+    }
+
 
     render() {
         const { name, phone, shift } = this.state;
@@ -55,9 +61,16 @@ class EmployeeCreate extends Component {
                     onShiftChange={this.onShiftChange}
                 />
                 <CardSection>
+                    {this.props.isEditingMode
+                    ?
+                    <Button onPress={this.onEmployeeUpdate}>
+                        Update
+                    </Button>
+                    :
                     <Button onPress={this.onButtonPress}>
                         Create
                     </Button>
+                    }
                 </CardSection>
             </Card>
         );
@@ -65,4 +78,4 @@ class EmployeeCreate extends Component {
 }
 
 
-export default connect(null, { employeeCreate })(EmployeeCreate);
+export default connect(null, { employeeCreate, employeeUpdate })(EmployeeCreate);

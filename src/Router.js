@@ -30,6 +30,13 @@ const RouterComponent = () => {
                         component={EmployeeCreate} 
                         title="Create Employee"
                     />
+                    <Scene
+                        // leftTitle="Back"
+                        // onLeft={navigateToEmployeeListComponent}
+                        key="employeeEdit"
+                        component={EmployeeCreate} 
+                        title="Edit Employee"
+                    />
                 </Scene>
             </Scene>
         </Router>
