@@ -2,7 +2,8 @@ import {
     EMPLOYEE_CREATE,
     EMPLOYEE_LIST_FETCH, 
     START_FIREBASE_EMPLOYEE_UPDATE_LISTENER,
-    EMPLOYEE_UPDATE
+    EMPLOYEE_UPDATE,
+    EMPLOYEE_DELETE
 } from './types';
 
 export const employeeCreate = (name, phone, shift) => ({
@@ -22,4 +23,8 @@ export const startFirebaseEmployeeUpdateListener = () => ({
 
 export const employeeUpdate = (name, phone, shift, uid) => ({
     type: EMPLOYEE_UPDATE, name, phone, shift, uid
+});
+
+export const employeeDelete = (uid) => ({
+    type: EMPLOYEE_DELETE, uid
 });

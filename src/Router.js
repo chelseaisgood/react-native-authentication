@@ -24,15 +24,11 @@ const RouterComponent = () => {
                         initial
                     />
                     <Scene
-                        // leftTitle="Back"
-                        // onLeft={navigateToEmployeeListComponent}
                         key="employeeCreate"
                         component={EmployeeCreate} 
                         title="Create Employee"
                     />
                     <Scene
-                        // leftTitle="Back"
-                        // onLeft={navigateToEmployeeListComponent}
                         key="employeeEdit"
                         component={EmployeeCreate} 
                         title="Edit Employee"

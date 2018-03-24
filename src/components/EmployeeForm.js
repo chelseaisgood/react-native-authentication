@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Picker, Text, View } from 'react-native';
-import { Button, Card, CardSection, Input } from './common'; 
+import { CardSection, Input } from './common'; 
 
 class EmployeeForm extends Component {
 

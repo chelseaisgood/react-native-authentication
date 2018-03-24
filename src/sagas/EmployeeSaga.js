@@ -6,7 +6,8 @@ import {
     EMPLOYEE_CREATE,
     EMPLOYEE_LIST_FETCH_SUCCESS,
     START_FIREBASE_EMPLOYEE_UPDATE_LISTENER,
-    EMPLOYEE_UPDATE
+    EMPLOYEE_UPDATE,
+    EMPLOYEE_DELETE
 } from '../actions/types';
 
 
@@ -60,32 +61,24 @@ function* updateEmployee({ name, phone, shift, uid }) {
     }
 }
 
-// function* saveEmploeeList(snapshot) {
-//     yield put({ type: EMPLOYEE_LIST_FETCH_SUCCESS, payload: snapshot.val() });
-// }
-
-// function* fetchEmployeeList() {
-//     const { currentUser } = firebase.auth();
-
-//     // /users/userId/employees path to json data store
-//     // firebase.database().ref(`/users/${currentUser.uid}/employees`)
-//     // .on('value', saveEmploeeList);
-//     const path = `/users/${currentUser.uid}/employees`;
-//     const func = firebase.database().ref(path);
-//     console.log(path);
-//     console.log(func);
-//     try {
-//         yield call(
-//             [func, func.on],
-//             'value',
-//             saveEmploeeList
-//         );
-//         // yield call(Actions.pop, { type: 'reset' });
-//     } catch (e) {
-//         console.log(e);
-//         console.log('fail to create employee');
-//     }
-// }
+function* fireEmployee({ uid }) {
+    yield call(console.log, uid);
+    const { currentUser } = firebase.auth();
+    
+    const path = `/users/${currentUser.uid}/employees/${uid}`;
+    const func = firebase.database().ref(path);
+    console.log(path);
+    console.log(func);
+    try {
+        yield call(
+            [func, func.remove]
+        );
+        yield call(Actions.main, { type: 'reset' });
+    } catch (e) {
+        console.log(e);
+        console.log('fail to delete employee');
+    }
+}
 
 function createChannel() {
     const { currentUser } = firebase.auth();
@@ -119,6 +112,7 @@ function* employeeSaga() {
   yield takeEvery(EMPLOYEE_CREATE, createEmployee);
   yield takeEvery(START_FIREBASE_EMPLOYEE_UPDATE_LISTENER, fetchEmployeeList);
   yield takeEvery(EMPLOYEE_UPDATE, updateEmployee);
+  yield takeEvery(EMPLOYEE_DELETE, fireEmployee);
 }
 
 export default employeeSaga;

@@ -1,16 +1,17 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { Picker, Text } from 'react-native';
-import { Button, Card, CardSection, Input } from './common'; 
+import Communications from 'react-native-communications';
+import { Button, Card, CardSection, ConfirmModal } from './common'; 
 import EmployeeForm from './EmployeeForm';
-import { employeeCreate, employeeUpdate } from '../actions/EmployeeActions';
+import { employeeCreate, employeeUpdate, employeeDelete } from '../actions/EmployeeActions';
 
 class EmployeeCreate extends Component {
 
     state= {
         name: '',
         phone: '',
-        shift: null
+        shift: null,
+        confirmModalVisible: false,
     }
 
     componentWillMount() {
@@ -45,6 +46,46 @@ class EmployeeCreate extends Component {
         this.props.employeeUpdate(name, phone, shift, this.props.employee.uid);
     }
 
+    onTextSchedule = () => {
+        const { phone, shift } = this.state;
+        Communications.text(phone, `Your upcoming shift is on ${shift}`);
+    }
+
+    openConfirmModal = () => {
+        this.setState({ confirmModalVisible: true });
+    }
+
+    closeConfirmModal = () => {
+        this.setState({ confirmModalVisible: false });
+    }
+
+    renderTextSchedule = () => {
+        if (this.props.isEditingMode) {
+            return (
+                <CardSection>
+                    <Button onPress={this.onTextSchedule}>
+                        Text Schedule
+                    </Button>
+                </CardSection>
+            );
+        }
+    }
+
+    renderFireEmployeeSection = () => {
+        if (this.props.isEditingMode) {
+            return (
+                <CardSection>
+                    <Button onPress={this.openConfirmModal}>
+                        Fire Employee
+                    </Button>
+                </CardSection>
+            );
+        }
+    }
+
+    fireThisEmployee = () => {
+        this.props.employeeDelete(this.props.employee.uid);
+    }
 
     render() {
         const { name, phone, shift } = this.state;
@@ -72,10 +113,22 @@ class EmployeeCreate extends Component {
                     </Button>
                     }
                 </CardSection>
+                {this.renderTextSchedule()}
+                {this.renderFireEmployeeSection()}
+                <ConfirmModal
+                    visible={this.state.confirmModalVisible}
+                    onAccept={this.fireThisEmployee}
+                    onReject={this.closeConfirmModal}
+                    confirmText='Yes'
+                    cancelText='No'
+                    transparent
+                >
+                    Are you sure you wnat to delete this employee?
+                </ConfirmModal>
             </Card>
         );
     }
 }
 
 
-export default connect(null, { employeeCreate, employeeUpdate })(EmployeeCreate);
+export default connect(null, { employeeCreate, employeeUpdate, employeeDelete })(EmployeeCreate);
